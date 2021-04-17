@@ -8,12 +8,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using JetBrains.Annotations;
+using Nuke.Common;
 using Nuke.Common.Tooling;
 using Nuke.Common.Utilities;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.Utilities.ReflectionUtility;
 
-namespace Nuke.Common.ValueInjection
+namespace Megasware128.Nuke.Extensions.ValueInjection
 {
     internal class ParameterService
     {
