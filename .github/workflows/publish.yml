@@ -19,7 +19,7 @@ name: publish
 on:
   push:
     tags:
-      - 1.*
+      - v*
 
 jobs:
   ubuntu-latest:
