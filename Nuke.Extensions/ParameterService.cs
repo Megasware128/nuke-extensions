@@ -51,7 +51,7 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
 
         public static string GetParameterDashedName(string name)
         {
-            return name.SplitCamelHumpsWithSeparator("-", Constants.KnownWords).ToLowerInvariant();
+            return name.SplitCamelHumpsWithSeparator("-", KnownWords).ToLowerInvariant();
         }
 
         public static string GetParameterMemberName(string name)
@@ -142,7 +142,7 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
                     : null;
 
             object TryFromCommandLinePositionalArguments() =>
-                parameterName == Constants.InvokedTargetsParameterName
+                parameterName == InvokedTargetsParameterName
                     ? GetPositionalCommandLineArguments(destinationType, separator)
                     : null;
 
@@ -388,5 +388,20 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
 
             return distances[lengthA, lengthB];
         }
+
+        internal static readonly string[] KnownWords =
+        {
+            "DotNet",
+            "GitHub",
+            "GitVersion",
+            "MSBuild",
+            "NuGet",
+            "ReSharper",
+            "AppVeyor",
+            "TeamCity",
+            "GitLab"
+        };
+
+        internal const string InvokedTargetsParameterName = "Target";
     }
 }
