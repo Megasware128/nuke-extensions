@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nuke.Extensions
+namespace Megasware128.Nuke.Extensions
 {
     public class AzurePipelinesExtendedAttribute
     {

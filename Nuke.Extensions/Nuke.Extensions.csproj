@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Megasware128.Nuke.Extensions</RootNamespace>
+    <AssemblyName>Megasware128.Nuke.Extensions</AssemblyName>
+    <PackageId>Megasware128.Nuke.Extensions</PackageId>
   </PropertyGroup>
 
 </Project>
