@@ -61,7 +61,7 @@ class Build : NukeBuild
 
     Target Pack => _ => _
         .DependsOn(Compile)
-        .Produces(ArtifactsDirectory)
+        .Produces(ArtifactsDirectory / "*.nupkg")
         .Executes(() =>
         {
             DotNetPack(s => s
