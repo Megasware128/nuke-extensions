@@ -24,7 +24,7 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Solution] readonly Solution Solution;
+    [Solution(GenerateProjects = true)] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion(Framework = "net5.0")] readonly GitVersion GitVersion;
 
@@ -57,4 +57,15 @@ class Build : NukeBuild
                 .EnableNoRestore());
         });
 
+    Target Pack => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetPack(s => s
+                .SetProject(Solution.Nuke_Extensions)
+                .SetConfiguration(Configuration)
+                .SetVersion(GitVersion.NuGetVersion)
+                .SetOutputDirectory(ArtifactsDirectory)
+                .EnableNoBuild());
+        });
 }
