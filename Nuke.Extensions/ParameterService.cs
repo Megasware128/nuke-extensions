@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.Tooling;
 using Nuke.Common.Utilities;
@@ -29,8 +28,8 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
         private readonly Func<IReadOnlyDictionary<string, string>> _environmentVariablesProvider;
 
         public ParameterService(
-            [CanBeNull] Func<IEnumerable<string>> commandLineArgumentsProvider,
-            [CanBeNull] Func<IReadOnlyDictionary<string, string>> environmentVariablesProvider)
+            Func<IEnumerable<string>> commandLineArgumentsProvider,
+            Func<IReadOnlyDictionary<string, string>> environmentVariablesProvider)
         {
             _commandLineArgumentsProvider = commandLineArgumentsProvider;
             _environmentVariablesProvider = environmentVariablesProvider;
@@ -72,14 +71,12 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
             return prefix + (attribute.Name ?? member.Name);
         }
 
-        [CanBeNull]
         public static string GetParameterDescription(MemberInfo member)
         {
             var attribute = member.GetCustomAttribute<ParameterAttribute>();
             return attribute.Description?.TrimEnd('.');
         }
 
-        [CanBeNull]
         public static IEnumerable<(string Text, object Object)> GetParameterValueSet(MemberInfo member, object instance)
         {
             var attribute = member.GetCustomAttribute<ParameterAttribute>();
@@ -125,15 +122,13 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
                 ?.OrderBy(x => x.Item1);
         }
 
-        [CanBeNull]
-        public static object GetFromMemberInfo(MemberInfo member, [CanBeNull] Type destinationType, Func<string, Type, char?, object> provider)
+        public static object GetFromMemberInfo(MemberInfo member, Type destinationType, Func<string, Type, char?, object> provider)
         {
             var attribute = member.GetCustomAttribute<ParameterAttribute>();
             var separator = (attribute.Separator ?? string.Empty).SingleOrDefault();
             return provider.Invoke(GetParameterMemberName(member), destinationType ?? member.GetMemberType(), separator);
         }
 
-        [CanBeNull]
         public object GetParameter(string parameterName, Type destinationType, char? separator)
         {
             object TryFromCommandLineArguments() =>
@@ -163,7 +158,6 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
                    TryFromProfileArguments();
         }
 
-        [CanBeNull]
         public object GetCommandLineArgument(string argumentName, Type destinationType, char? separator)
         {
             var index = GetCommandLineArgumentIndex(argumentName);
@@ -174,7 +168,6 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
             return ConvertCommandLineArguments(argumentName, values, destinationType, Arguments, separator);
         }
 
-        [CanBeNull]
         public object GetCommandLineArgument(int position, Type destinationType, char? separator)
         {
             var positionalParametersCount = Arguments.TakeUntil(IsParameter).Count();
@@ -192,7 +185,6 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
                 separator);
         }
 
-        [CanBeNull]
         public object GetPositionalCommandLineArguments(Type destinationType, char? separator = null)
         {
             var positionalArguments = Arguments.TakeUntil(IsParameter).ToArray();
@@ -207,7 +199,6 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
                 separator);
         }
 
-        [CanBeNull]
         private object ConvertCommandLineArguments(
             string argumentName,
             string[] values,
@@ -255,7 +246,6 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
             return index;
         }
 
-        [CanBeNull]
         public object GetEnvironmentVariable(string variableName, Type destinationType, char? separator)
         {
             static string GetTrimmedName(string name)
@@ -288,13 +278,11 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
             }
         }
 
-        [CanBeNull]
         private object GetDefaultValue(Type type)
         {
             return type.IsNullableType() ? null : Activator.CreateInstance(type);
         }
 
-        [CanBeNull]
         private object ConvertValues(string parameterName, IReadOnlyCollection<string> values, Type destinationType)
         {
             try
@@ -309,7 +297,6 @@ namespace Megasware128.Nuke.Extensions.ValueInjection
             }
         }
 
-        [CanBeNull]
         private object ConvertValues(IReadOnlyCollection<string> values, Type destinationType)
         {
             ControlFlow.Assert(!destinationType.IsArray || destinationType.GetArrayRank() == 1, "Arrays must have a rank of 1.");
