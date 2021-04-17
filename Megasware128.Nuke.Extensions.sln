@@ -5,12 +5,16 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuke.Extensions", "Nuke.Extensions\Nuke.Extensions.csproj", "{F16C4F45-EB92-40AF-9717-6E9DE082BA4A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{8BA9E1C3-6594-4FCD-9B0C-F02CE5DBCD68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BA9E1C3-6594-4FCD-9B0C-F02CE5DBCD68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BA9E1C3-6594-4FCD-9B0C-F02CE5DBCD68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F16C4F45-EB92-40AF-9717-6E9DE082BA4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F16C4F45-EB92-40AF-9717-6E9DE082BA4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F16C4F45-EB92-40AF-9717-6E9DE082BA4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
