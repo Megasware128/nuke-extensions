@@ -13,6 +13,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
 [GitHubActions("pack", GitHubActionsImage.UbuntuLatest, InvokedTargets = new[] { nameof(Pack) }, On = new[] { GitHubActionsTrigger.Push })]
+[GitHubActions("publish", GitHubActionsImage.UbuntuLatest, InvokedTargets = new[] { nameof(Pack), nameof(Publish) }, OnPushTags = new[] { "1.*" }, ImportSecrets = new[] { nameof(NuGetApiKey) })]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -25,6 +26,9 @@ class Build : NukeBuild
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+
+    [Parameter] readonly string NuGetSource = "https://api.nuget.org/v3/index.json";
+    [Parameter] readonly string NuGetApiKey;
 
     [Solution(GenerateProjects = true)] readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
@@ -70,5 +74,18 @@ class Build : NukeBuild
                 .SetVersion(GitVersion.NuGetVersion)
                 .SetOutputDirectory(ArtifactsDirectory)
                 .EnableNoBuild());
+        });
+
+    Target Publish => _ => _
+        .After(Pack)
+        .Consumes(Pack)
+        .Requires(() => NuGetSource)
+        .Requires(() => NuGetApiKey)
+        .Executes(() =>
+        {
+            DotNetNuGetPush(s => s
+                .SetTargetPath(ArtifactsDirectory / "*.nupkg")
+                .SetSource(NuGetSource)
+                .SetApiKey(NuGetApiKey));
         });
 }
