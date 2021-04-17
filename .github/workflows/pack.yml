@@ -16,7 +16,10 @@
 
 name: pack
 
-on: [push]
+on:
+  push:
+    tags-ignore:
+      - v*
 
 jobs:
   ubuntu-latest:

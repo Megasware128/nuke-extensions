@@ -12,7 +12,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
-[GitHubActions("pack", GitHubActionsImage.UbuntuLatest, InvokedTargets = new[] { nameof(Pack) }, On = new[] { GitHubActionsTrigger.Push })]
+[GitHubActions("pack", GitHubActionsImage.UbuntuLatest, InvokedTargets = new[] { nameof(Pack) }, OnPushTagsIgnore = new[] { "v*" })]
 [GitHubActions("publish", GitHubActionsImage.UbuntuLatest, InvokedTargets = new[] { nameof(Pack), nameof(Publish) }, OnPushTags = new[] { "v*" }, ImportSecrets = new[] { nameof(NuGetApiKey) })]
 class Build : NukeBuild
 {
