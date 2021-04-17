@@ -18,8 +18,8 @@ name: pack
 
 on:
   push:
-    tags-ignore:
-      - v*
+    branches:
+      - '*'
 
 jobs:
   ubuntu-latest:
