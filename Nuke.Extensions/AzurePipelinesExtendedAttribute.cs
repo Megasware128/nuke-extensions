@@ -32,7 +32,17 @@ namespace Megasware128.Nuke.Extensions
         public bool NuGetAuthenticate { get; set; }
 
         protected override IEnumerable<AzurePipelinesStep> GetSteps(ExecutableTarget executableTarget, IReadOnlyCollection<ExecutableTarget> relevantTargets)
-            => base.GetSteps(executableTarget, relevantTargets).Prepend(new AzurePipelinesNuGetAuthenticateStep());
+        {
+            if (NuGetAuthenticate)
+            {
+                yield return new AzurePipelinesNuGetAuthenticateStep();
+            }
+
+            foreach (var step in base.GetSteps(executableTarget, relevantTargets))
+            {
+                yield return step;
+            }
+        }
 
         public override ConfigurationEntity GetConfiguration(NukeBuild build, IReadOnlyCollection<ExecutableTarget> relevantTargets)
         {
