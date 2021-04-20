@@ -52,7 +52,7 @@ namespace Megasware128.Nuke.Extensions
             {
                 var importSecrets = ImportSecrets;
 
-                ImportSecrets = importSecrets.Concat(parameters.Select(p => p.Name)).ToArray();
+                ImportSecrets = importSecrets.Concat(parameters.Select(p => p.Name)).Distinct().ToArray();
 
                 var config = (AzurePipelinesConfiguration)base.GetConfiguration(build, relevantTargets);
 
