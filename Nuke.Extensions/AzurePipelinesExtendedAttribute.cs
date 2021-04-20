@@ -46,9 +46,9 @@ namespace Megasware128.Nuke.Extensions
 
         public override ConfigurationEntity GetConfiguration(NukeBuild build, IReadOnlyCollection<ExecutableTarget> relevantTargets)
         {
-            var parameters = GetGlobalParameters(build, relevantTargets).ToArray();
+            var parameters = GetGlobalParameters(build, relevantTargets);
 
-            if (parameters.Length > 0)
+            if (parameters.Any())
             {
                 var importSecrets = ImportSecrets;
 
@@ -63,7 +63,7 @@ namespace Megasware128.Nuke.Extensions
                     VariableGroups = config.VariableGroups,
                     VcsPushTrigger = config.VcsPushTrigger,
                     Stages = config.Stages,
-                    Variables = parameters
+                    Variables = parameters.Where(p => !ImportSecrets.Contains(p.Name)).ToArray()
                 };
             }
 
