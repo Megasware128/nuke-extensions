@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Megasware128.InternalToPublic;
 using Megasware128.Nuke.Extensions.Configuration;
-using Megasware128.Nuke.Extensions.ValueInjection;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.CI.AzurePipelines;
@@ -14,8 +14,10 @@ using Nuke.Common.Execution;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Utilities;
-using Nuke.Common.ValueInjection;
 using static Nuke.Common.IO.PathConstruction;
+
+[assembly: InternalToPublic("Nuke.Common", "Nuke.Common.ValueInjection.ParameterService", PublicType = "Nuke.Common.CI.AzurePipelines.AzurePipelinesAttribute")]
+[assembly: InternalToPublic("Nuke.Common", "Nuke.Common.ValueInjection.ValueInjectionUtility", PublicType = "Nuke.Common.CI.AzurePipelines.AzurePipelinesAttribute")]
 
 namespace Megasware128.Nuke.Extensions
 {
@@ -31,14 +33,14 @@ namespace Megasware128.Nuke.Extensions
 
         public bool NuGetAuthenticate { get; set; }
 
-        protected override IEnumerable<AzurePipelinesStep> GetSteps(ExecutableTarget executableTarget, IReadOnlyCollection<ExecutableTarget> relevantTargets)
+        protected override IEnumerable<AzurePipelinesStep> GetSteps(ExecutableTarget executableTarget, IReadOnlyCollection<ExecutableTarget> relevantTargets, AzurePipelinesImage image)
         {
             if (NuGetAuthenticate)
             {
                 yield return new AzurePipelinesNuGetAuthenticateStep();
             }
 
-            foreach (var step in base.GetSteps(executableTarget, relevantTargets))
+            foreach (var step in base.GetSteps(executableTarget, relevantTargets, image))
             {
                 yield return step;
             }
