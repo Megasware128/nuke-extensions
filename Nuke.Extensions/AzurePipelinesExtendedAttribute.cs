@@ -64,6 +64,7 @@ namespace Megasware128.Nuke.Extensions
                 {
                     VariableGroups = config.VariableGroups,
                     VcsPushTrigger = config.VcsPushTrigger,
+                    VcsPullRequestTrigger = config.VcsPullRequestTrigger,
                     Stages = config.Stages,
                     Variables = parameters.Where(p => !ImportSecrets.Contains(p.Name)).ToArray()
                 };
