@@ -1,7 +1,6 @@
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Execution;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
@@ -10,10 +9,16 @@ using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
-[CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
-[GitHubActions("pack", GitHubActionsImage.UbuntuLatest, InvokedTargets = new[] { nameof(Pack) }, OnPushBranches = new[] { "'*'" })]
-[GitHubActions("publish", GitHubActionsImage.UbuntuLatest, InvokedTargets = new[] { nameof(Pack), nameof(Publish) }, OnPushTags = new[] { "v*" }, ImportSecrets = new[] { nameof(NuGetApiKey) })]
+[GitHubActions("pack", GitHubActionsImage.UbuntuLatest,
+    FetchDepth = 0,
+    InvokedTargets = new[] { nameof(Pack) },
+    OnPushBranches = new[] { "'*'" })]
+[GitHubActions("publish", GitHubActionsImage.UbuntuLatest,
+    FetchDepth = 0,
+    InvokedTargets = new[] { nameof(Pack), nameof(Publish) },
+    OnPushTags = new[] { "v*" },
+    ImportSecrets = new[] { nameof(NuGetApiKey) })]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
