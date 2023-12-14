@@ -16,12 +16,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Megasware128.InternalToPublic" Version="0.1.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
-    <PackageReference Include="Nuke.Common" Version="6.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all" />
+    <PackageReference Include="Nuke.Common" Version="7.0.6" />
   </ItemGroup>
 
   <ItemGroup>
